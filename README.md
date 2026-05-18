@@ -1,65 +1,85 @@
 # Revo-MjLab
-This repo contains tasks for Revo3 base on MjLab, Standalone BrainCo task package for `mjlab`.
 
-Current migration status:
+BrainCo Revo3 task package for [mjlab](https://github.com/mujocolab/mjlab).
 
-- Manager-based Dexsuite tasks are migrated into a native `mjlab.tasks` package.
-- Registered tasks:
-  - `BrainCo-Dexsuite-Arm-BrainCo-Lift-v0`
+This repository is a standalone mjlab task package. It registers BrainCo tasks through the `mjlab.tasks` entry point and is intended to be used with the official mjlab `train` and `play` commands.
 
-- Direct BrainCo in-hand tasks are not yet ported in this package.
+## Included Tasks
 
-## 安装
+| Robot | Task | Task ID | Demo |
+| --- | --- | --- | --- |
+| Revo3 arm + hand | Dexsuite lift | `BrainCo-Dexsuite-Arm-BrainCo-Lift-v0` | <img src="image/BrainCo-Dexsuite-Arm-BrainCo-Lift-v0.gif" width="320"/> |
+| Revo3 arm + hand | Dexsuite reorient | `BrainCo-Dexsuite-Arm-BrainCo-Reorient-v0` | - |
+| Revo3 right hand | In-hand rotation | `BrainCo-Revo3-Right-Inhand-Rotate-v0` | - |
+
+## Repository Layout
+
+```text
+Revo-MjLab/
+|-- image/                  # Task demo GIFs
+|-- scripts/                # Small helper scripts
+`-- source/
+    |-- assets/             # URDF/STL assets for arm-hand Dexsuite tasks
+    |-- pyproject.toml      # mjlab task package metadata
+    `-- src/brainco_mjlab_tasks/
+        |-- assets/         # Package-local MJCF assets
+        |-- dexsuite/       # Arm-hand lift/reorient tasks
+        `-- inhand/         # Revo3 right-hand in-hand rotation task
+```
+
+## Install
+
+Install mjlab first by following the official mjlab documentation. Then install this task package:
 
 ```bash
-conda activate mjlab
-git clone https://github.com/BrainCoTech/Revo-MjLab.git
-cd Revo-MjLab/srouce/
+cd Revo-MjLab/source
 pip install -e .
 ```
 
+## List Tasks
 
-## 任务总览
+```bash
+PYTHONPATH=source/src python scripts/list_envs.py --keyword BrainCo
+```
 
-### Revo3
+In an installed mjlab environment, the tasks also load through the `mjlab.tasks` entry point.
 
-| Task Description | Task Name | Weight | Demo |
-| --- | --- | --- | --- |
-| Grasp (Lift) | `BrainCo-Dexsuite-Arm-BrainCo-Lift-v0` | `-` | <img src="image/BrainCo-Dexsuite-Arm-BrainCo-Lift-v0.gif" width="320"/> |
+## Train
 
-
-## 配置文件
-
-### Revo3
-
-#### 1) Grasp (Lift)
-- Env config: `source/BrainCo_DexHand/BrainCo_DexHand/tasks/manager_based/dexsuite/config/arm_brainco/dexsuite_arm_brain_env_cfg_grasp.py` (`DexsuiteArmBrainCoLiftEnvCfg`)
-- Base config used: `source/BrainCo_DexHand/BrainCo_DexHand/tasks/manager_based/dexsuite/dexsuite_env_cfg_grasp.py`
-
-## 训练与演示
-
-#### Train command
-
-Training does not provide an IsaacLab-style live interactive scene viewer.
-```python
+```bash
 train BrainCo-Dexsuite-Arm-BrainCo-Lift-v0 \
-    --video True  \
-    --env.scene.num-envs  4096\
-    --gpu-ids '[0]' \
+  --video True \
+  --env.scene.num-envs 4096 \
+  --gpu-ids "[0]"
 ```
-#### Play command
 
-render by local machine
+```bash
+train BrainCo-Revo3-Right-Inhand-Rotate-v0 \
+  --headless True \
+  --env.scene.num-envs 4096 \
+  --gpu-ids "[0]"
+```
 
-```python
+## Play
+
+Native MuJoCo viewer:
+
+```bash
 play BrainCo-Dexsuite-Arm-BrainCo-Lift-v0 \
-    --wandb-run-path <user>/<project_id>/<task_id>  \
-    --num-envs 1 \
+  --wandb-run-path <user>/<project>/<run> \
+  --num-envs 1 \
+  --viewer native
 ```
-render by the website
-```
+
+Browser viewer:
+
+```bash
 play BrainCo-Dexsuite-Arm-BrainCo-Lift-v0 \
-    --wandb-run-path <user>/<project_id>/<task_id>  \
-    --num-envs 1 \
-    --viewer viser \
+  --wandb-run-path <user>/<project>/<run> \
+  --num-envs 1 \
+  --viewer viser
 ```
+
+## Scope
+
+This repository contains simulation tasks only. It does not include sim2sim or hardware deployment code.

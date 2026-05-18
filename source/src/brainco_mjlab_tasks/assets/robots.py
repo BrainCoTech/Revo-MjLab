@@ -8,8 +8,8 @@ from mjlab.actuator import BuiltinPositionActuatorCfg
 from mjlab.entity import EntityArticulationInfoCfg, EntityCfg
 from mjlab.utils.spec_config import CollisionCfg
 
-ASSETS_ROOT = Path(__file__).resolve().parents[3] / "assets" 
-URDF_ROOT = ASSETS_ROOT / "BrainCo-Revo3-URDF-April27"
+ASSETS_ROOT = Path(__file__).resolve().parents[3] / "assets"
+URDF_ROOT = ASSETS_ROOT / "BrainCo-Revo3-URDF"
 
 
 def _compile_urdf_to_xml(urdf_name: str, xml_name: str) -> Path:

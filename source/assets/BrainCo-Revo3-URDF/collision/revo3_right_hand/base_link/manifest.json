@@ -1,5 +1,5 @@
 {
-  "source": "E:\\BrainCO\\BrainCo-Revo3-URDF-April27\\meshes\\revo3_right_hand\\base_link.STL",
+  "source": "source/assets/BrainCo-Revo3-URDF/meshes/revo3_right_hand/base_link.STL",
   "parts": [
     {
       "file": "part_000.obj",

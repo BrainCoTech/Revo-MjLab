@@ -9,7 +9,7 @@ import torch
 from mjlab.entity import Entity
 from mjlab.managers import SceneEntityCfg
 
-_URDF_ROOT = Path(__file__).resolve().parents[4] / "assets" / "BrainCo-Revo3-URDF-April27"
+_URDF_ROOT = Path(__file__).resolve().parents[4] / "assets" / "BrainCo-Revo3-URDF"
 
 
 @lru_cache(maxsize=None)
